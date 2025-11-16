@@ -372,9 +372,7 @@
 </footer>
 
 <script>
-    enum lesson{
 
-    }
     function goBack() {
         // بازگشت به صفحه طراحی سایت
         window.location.href = 'web-design.html';
@@ -386,15 +384,14 @@
 
     function openLesson(lessonNumber) {
         const lessonTitles = [
-            '',
-            'متغیرها و انواع داده',
-            'عملگرها و عبارات',
-            'ساختارهای کنترل',
-            'توابع',
-            'کار با DOM'
+            'jsintroduction.html',
+            'Methods.html',
+            'dom.html',
+            'Selecting-Elements.html',
         ];
 
-        window.location = "jsintroduction.html"
+        window.location.href = lessonTitles.at(lessonNumber-1);
+
     }
 
 
