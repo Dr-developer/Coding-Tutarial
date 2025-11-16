@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - سایت آموزشی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../style/style.css">
+
+    <style>
+        /* استایل کلی */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* هدر */
+        header {
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: #333;
+            padding: 30px 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+
+        .back-btn {
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 0, 0, 0.15);
+            transform: translateX(-5px);
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        /* محتوای اصلی */
+        main {
+            padding: 40px 0;
+        }
+
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .chapter-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .chapter-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #f7df1e, #d4b810);
+            border-radius: 2px;
+        }
+
+        .chapter-header p {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .js-icon {
+            font-size: 3rem;
+            color: #f7df1e;
+            margin-bottom: 15px;
+        }
+
+        .content-grid {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .lessons-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .lessons-section h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f7df1e;
+        }
+
+        .lesson-item {
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lesson-item:hover {
+            border-color: #f7df1e;
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(247, 223, 30, 0.1);
+        }
+
+        .lesson-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lesson-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .resources-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .resources-section h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f7df1e;
+        }
+
+        .resource-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-right: 4px solid #f7df1e;
+        }
+
+        .resource-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .demo-section h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f7df1e;
+        }
+
+        .code-editor {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            direction: ltr;
+        }
+
+        .code-editor pre {
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .demo-result {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #eee;
+        }
+
+        .demo-result h4 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #f7df1e, #d4b810);
+            color: #333;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(247, 223, 30, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(247, 223, 30, 0.4);
+        }
+
+        /* فوتر */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-right"></i> بازگشت به JavaScript
+        </button>
+        <div>
+            <h1><i class="fab fa-js-square"></i> آموزش زبان برنامه نویسی JS</h1>
+        </div>
+        <div></div> <!-- برای حفظ تراز -->
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="chapter-header">
+            <h2>آموزش کامل JavaScript</h2>
+            <p>جاوااسکریپت زبان برنامه‌نویسی سمت کلاینت است که به صفحات وب زندگی می‌بخشد. با یادگیری این زبان می‌توانید صفحات وب تعاملی و پویا ایجاد کنید.</p>
+            <button class="btn" onclick="startLearning()">
+                <i class="fas fa-play"></i> شروع یادگیری
+            </button>
+        </section>
+
+        <section class="content-grid">
+            <div class="lessons-section">
+                <h3><i class="fas fa-play-circle"></i> دروس آموزشی</h3>
+
+                <div class="lesson-item" onclick="openLesson(1)">
+                    <h4><i class="fas fa-variable"></i> درس اول: متغیرها و انواع داده</h4>
+                    <p>آشنایی با مفهوم متغیر، انواع داده‌ها در جاوااسکریپت و نحوه تعریف و استفاده از آن‌ها</p>
+                </div>
+
+
+                <div class="lesson-item" onclick="openLesson(2)">
+                    <h4><i class="fas fa-cube"></i> درس دوم: توابع</h4>
+                    <p>یادگیری نحوه تعریف و فراخوانی توابع، پارامترها و مقدار بازگشتی</p>
+                </div>
+
+                <div class="lesson-item" onclick="openLesson(3)">
+                    <h4><i class="fas fa-object-group"></i> درس سوم: کار با DOM</h4>
+                    <p>آموزش مدل DOM </p>
+                </div>
+                <div class="lesson-item" onclick="openLesson(4)">
+                    <h4><i class="fas  fa-search-location"></i> درس سوم:انتخاب عناصر با DOM</h4>
+                    <p>آموزش  نحوه دسترسی و تغییر المان‌های HTML با جاوااسکریپت</p>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+    </main>
+
+<footer>
+    <div class="container">
+        <p>ساخته شده با <i class="fas fa-heart" style="color: #ff6b6b;"></i> برای دانش آموزان عزیز</p>
+        <p>تمامی حقوق محفوظ است - 1404</p>
+    </div>
+</footer>
+
+<script>
+    enum lesson{
+
+    }
+    function goBack() {
+        // بازگشت به صفحه طراحی سایت
+        window.location.href = 'web-design.html';
+    }
+
+    function startLearning() {
+        alert('شروع دوره آموزشی JavaScript! لطفا درس اول را مطالعه کنید.');
+    }
+
+    function openLesson(lessonNumber) {
+        const lessonTitles = [
+            '',
+            'متغیرها و انواع داده',
+            'عملگرها و عبارات',
+            'ساختارهای کنترل',
+            'توابع',
+            'کار با DOM'
+        ];
+
+        window.location = "jsintroduction.html"
+    }
+
+
+    // یک مثال تعاملی ساده
+    document.addEventListener('DOMContentLoaded', function() {
+        // تغییر رنگ پس‌زمینه با کلیک روی هدر
+        const header = document.querySelector('header');
+        header.addEventListener('click', function() {
+            this.style.background = this.style.background.includes('#f7df1e')
+                ? 'linear-gradient(135deg, #4b6cb7 0%, #182848 100%)'
+                : 'linear-gradient(135deg, #f7df1e 0%, #d4b810 100%)';
+        });
+    });
+</script>
+</body>
+</html>

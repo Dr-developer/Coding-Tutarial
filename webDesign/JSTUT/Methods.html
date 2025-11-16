@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آموزش توابع در JavaScript - سایت آموزشی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            padding: 30px 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #d4b810;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 20px;
+        }
+
+        .section-content ul {
+            margin-right: 25px;
+            margin-bottom: 20px;
+        }
+
+        .section-content li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-right: 15px;
+        }
+
+        .section-content li:before {
+            content: '•';
+            color: #f7df1e;
+            font-weight: bold;
+            position: absolute;
+            right: 0;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            direction: ltr;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .note {
+            background: #fff5f5;
+            border-right: 4px solid #f7df1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .note-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interactive-demo {
+            background: #fff5f5;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #f1e9b1;
+        }
+
+        .demo-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .demo-output {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 80px;
+            border: 1px solid #e9ecef;
+            font-family: 'Courier New', monospace;
+            margin-top: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgb(136, 116, 0);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgb(136, 116, 0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            box-shadow: 0 4px 10px rgba(75, 108, 183, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 15px rgba(75, 108, 183, 0.4);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .comparison-table th {
+            background: #f7df1e;
+            color: white;
+            padding: 15px;
+            text-align: right;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background: #fff5f5;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 25px;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1><i class="fas fa-function"></i> آموزش کامل توابع در JavaScript</h1>
+        <p>یادگیری انواع توابع، پارامترها، بازگشت مقادیر و مفاهیم پیشرفته</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="content">
+        <!-- بخش ۱: معرفی توابع -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-play-circle"></i> توابع در JavaScript چیست؟</h2>
+            <div class="section-content">
+                <p><strong>تابع (Function)</strong> یک بلوک از کد است که برای انجام یک کار خاص طراحی شده است. توابع به ما کمک می‌کنند کدهای تکراری را کاهش دهیم و برنامه‌هایمان را به بخش‌های کوچک‌تر و مدیریت‌پذیرتر تقسیم کنیم.</p>
+
+                <div class="note">
+                    <div class="note-title"><i class="fas fa-lightbulb"></i> چرا از توابع استفاده می‌کنیم؟</div>
+                    <ul>
+                        <li><strong>قابلیت استفاده مجدد:</strong> یک بار تابع را می‌نویسیم، چندین بار استفاده می‌کنیم</li>
+                        <li><strong>سازمان‌دهی کد:</strong> برنامه را به بخش‌های منطقی تقسیم می‌کنیم</li>
+                        <li><strong>کاهش خطا:</strong> با تست یک تابع، از صحت عملکرد آن در تمام برنامه اطمینان پیدا می‌کنیم</li>
+                        <li><strong>خوانایی:</strong> کد تمیزتر و قابل فهم‌تری خواهیم داشت</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۲: انواع تعریف تابع -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-code"></i> انواع روش‌های تعریف تابع</h2>
+            <div class="section-content">
+                <p>در JavaScript چهار روش اصلی برای تعریف توابع وجود دارد:</p>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-cube"></i> ۱. تعریف تابع (Function Declaration)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// تعریف تابع
+function greet(name) {
+    return `سلام ${name}!`;
+}
+
+// فراخوانی تابع
+const message = greet("علی");
+console.log(message); // خروجی: سلام علی!</code></pre>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-bolt"></i> ۲. عبارت تابع (Function Expression)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// تعریف تابع در یک متغیر
+const multiply = function(a, b) {
+    return a * b;
+};
+
+// فراخوانی تابع
+const result = multiply(5, 3);
+console.log(result); // خروجی: 15</code></pre>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-arrow-right"></i> ۳. توابع پیکانی (Arrow Functions)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// روش کوتاه‌نویسی
+const square = (x) => x * x;
+
+// روش کامل
+const add = (a, b) => {
+    const sum = a + b;
+    return sum;
+};
+
+// فراخوانی
+console.log(square(4)); // خروجی: 16
+console.log(add(2, 3)); // خروجی: 5</code></pre>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-new"></i> ۴. سازنده تابع (Function Constructor)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// روش کمتر رایج
+const divide = new Function('a', 'b', 'return a / b');
+
+// فراخوانی
+console.log(divide(10, 2)); // خروجی: 5</code></pre>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <div class="note-title"><i class="fas fa-exclamation-triangle"></i> تفاوت مهم Function Declaration و Expression</div>
+                    <p>توابع تعریفی (Declaration) قبل از اجرای کد در حافظه قرار می‌گیرند (Hoisting)، اما توابع عبارتی (Expression) فقط زمانی در دسترس هستند که به خط تعریفشان برسیم.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۳: پارامترها و آرگومان‌ها -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-cogs"></i> پارامترها و آرگومان‌ها</h2>
+            <div class="section-content">
+                <p><strong>پارامتر (Parameter)</strong> متغیرهایی هستند که در تعریف تابع می‌آیند. <strong>آرگومان (Argument)</strong> مقادیر واقعی هستند که هنگام فراخوانی به تابع پاس داده می‌شوند.</p>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-sliders-h"></i> پارامترهای پیش‌فرض</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">function createUser(name, age = 18, isActive = true) {
+    return {
+        name: name,
+        age: age,
+        isActive: isActive
+    };
+}
+
+// استفاده از مقادیر پیش‌فرض
+const user1 = createUser("علی"); // age=18, isActive=true
+const user2 = createUser("رضا", 25); // isActive=true
+const user3 = createUser("سارا", 30, false);</code></pre>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-ellipsis-h"></i> پارامترهای rest</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">function sum(...numbers) {
+    let total = 0;
+    for (let num of numbers) {
+        total += num;
+    }
+    return total;
+}
+
+console.log(sum(1, 2, 3)); // خروجی: 6
+console.log(sum(1, 2, 3, 4, 5)); // خروجی: 15</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۴: بازگشت مقدار -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-reply"></i> بازگشت مقدار (Return)</h2>
+            <div class="section-content">
+                <p>دستور <code>return</code> مقدار خروجی تابع را مشخص می‌کند. اگر تابعی <code>return</code> نداشته باشد، مقدار <code>undefined</code> برمی‌گرداند.</p>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-undo"></i> بازگشت چندین مقدار</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">function calculate(a, b) {
+    const sum = a + b;
+    const difference = a - b;
+    const product = a * b;
+    const quotient = a / b;
+
+    return { sum, difference, product, quotient };
+}
+
+const results = calculate(10, 5);
+console.log(results.sum); // خروجی: 15
+console.log(results.product); // خروجی: 50</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۵: توابع پیکانی -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-arrow-right"></i> توابع پیکانی (Arrow Functions)</h2>
+            <div class="section-content">
+                <p>توابع پیکانی روش مدرن‌تری برای نوشتن توابع در JavaScript هستند و ویژگی‌های خاصی دارند:</p>
+
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ویژگی</th>
+                            <th>توابع معمولی</th>
+                            <th>توابع پیکانی</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>سینتکس</td>
+                            <td>function() {}</td>
+                            <td>() => {}</td>
+                        </tr>
+                        <tr>
+                            <td>this</td>
+                            <td>مربوط به فراخوانی کننده</td>
+                            <td>مربوط به محیط تعریف</td>
+                        </tr>
+                        <tr>
+                            <td>arguments</td>
+                            <td>دارد</td>
+                            <td>ندارد</td>
+                        </tr>
+                        <tr>
+                            <td>constructor</td>
+                            <td>می‌شود</td>
+                            <td>نمی‌شود</td>
+                        </tr>
+                        <tr>
+                            <td>return implicit</td>
+                            <td>خیر</td>
+                            <td>در یک خطی: بله</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-magic"></i> نمونه‌های کاربردی</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// یک خطی - return خودکار
+const double = x => x * 2;
+
+// چند خطی - نیاز به return دارد
+const processData = (data) => {
+    const filtered = data.filter(item => item > 10);
+    const sorted = filtered.sort((a, b) => a - b);
+    return sorted;
+};
+
+// در متدهای آرایه
+const numbers = [1, 2, 3, 4, 5];
+const squares = numbers.map(x => x * x); // [1, 4, 9, 16, 25]</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۶: دموی تعاملی -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-flask"></i> محیط آزمایش توابع</h2>
+            <div class="interactive-demo">
+                <div class="demo-title"><i class="fas fa-play"></i> آزمایشگاه توابع</div>
+
+                <div class="demo-controls">
+                    <button class="btn" onclick="runBasicFunction()">تابع پایه</button>
+                    <button class="btn" onclick="runArrowFunction()">تابع پیکانی</button>
+                    <button class="btn" onclick="runCalculator()">ماشین حساب</button>
+                    <button class="btn" onclick="runStringProcessor()">پردازش متن</button>
+                </div>
+
+                <div class="demo-output" id="function-output">
+                    خروجی توابع اینجا نمایش داده می‌شود
+                </div>
+
+                <div class="code-block">
+                        <pre><code class="language-javascript">// کدهای قابل اجرا در دمو
+function basicFunction(name) {
+    return `سلام ${name}، به آزمایشگاه توابع خوش آمدی!`;
+}
+
+const arrowFunction = (a, b) => a * b;
+
+function calculator(operation, x, y) {
+    switch(operation) {
+        case 'add': return x + y;
+        case 'subtract': return x - y;
+        case 'multiply': return x * y;
+        case 'divide': return y !== 0 ? x / y : 'خطا: تقسیم بر صفر';
+        default: return 'عملیات نامعتبر';
+    }
+}
+
+const stringProcessor = (text) => {
+    return {
+        length: text.length,
+        upperCase: text.toUpperCase(),
+        lowerCase: text.toLowerCase(),
+        words: text.split(' ').length
+    };
+};</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۷: مفاهیم پیشرفته -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-rocket"></i> مفاهیم پیشرفته</h2>
+            <div class="section-content">
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-layer-group"></i> توابع بازگشتی (Recursive)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// محاسبه فاکتوریل
+function factorial(n) {
+    if (n === 0 || n === 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+console.log(factorial(5)); // خروجی: 120</code></pre>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-clock"></i> توابع بازگشتی (Closures)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">function createCounter() {
+    let count = 0;
+
+    return function() {
+        count++;
+        return count;
+    };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3</code></pre>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-cube"></i> توابع سازنده (Constructors)</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">function Person(name, age) {
+    this.name = name;
+    this.age = age;
+
+    this.introduce = function() {
+        return `من ${this.name} هستم و ${this.age} سال دارم`;
+    };
+}
+
+const person1 = new Person("علی", 20);
+console.log(person1.introduce());</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="navigation">
+            <button class="btn btn-secondary" onclick="goBack()">
+                <i class="fas fa-arrow-right"></i> بازگشت به صفحه JavaScript
+            </button>
+            <button class="btn" onclick="nextLesson()">
+                درس بعدی <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+
+
+<footer>
+    <div class="container">
+        <p>ساخته شده با <i class="fas fa-heart" style="color: #ff6b6b;"></i> برای دانش آموزان عزیز</p>
+        <p>تمامی حقوق محفوظ است - 1404</p>
+    </div>
+</footer>
+
+<script>
+    // فعال کردن هایلایت کد
+    hljs.highlightAll();
+    function goBack() {
+        // بازگشت به صفحه JavaScript
+        window.location.href = 'jsintroduction.html.html';
+    }
+
+    function nextLesson() {
+        window.location.href = 'dom.html';
+        // در حالت واقعی: window.location.href = 'javascript-lesson2.html';
+    }
+    // توابع برای دموی تعاملی
+    function runBasicFunction() {
+        function basicFunction(name) {
+            return `سلام ${name}، به آزمایشگاه توابع خوش آمدی!`;
+        }
+        const output = basicFunction("دانش‌آموز");
+        document.getElementById("function-output").textContent = output;
+    }
+
+    function runArrowFunction() {
+        const arrowFunction = (a, b) => a * b;
+        const result = arrowFunction(7, 8);
+        document.getElementById("function-output").textContent = `نتیجه ضرب: 7 × 8 = ${result}`;
+    }
+
+    function runCalculator() {
+        function calculator(operation, x, y) {
+            switch(operation) {
+                case 'add': return x + y;
+                case 'subtract': return x - y;
+                case 'multiply': return x * y;
+                case 'divide': return y !== 0 ? x / y : 'خطا: تقسیم بر صفر';
+                default: return 'عملیات نامعتبر';
+            }
+        }
+
+        const operations = [
+            { op: 'add', symbol: '+', x: 15, y: 10 },
+            { op: 'subtract', symbol: '-', x: 20, y: 8 },
+            { op: 'multiply', symbol: '×', x: 6, y: 7 },
+            { op: 'divide', symbol: '÷', x: 50, y: 5 }
+        ];
+
+        let output = "نتایج ماشین حساب:\n";
+        operations.forEach(item => {
+            const result = calculator(item.op, item.x, item.y);
+            output += `${item.x} ${item.symbol} ${item.y} = ${result}\n`;
+        });
+
+        document.getElementById("function-output").textContent = output;
+    }
+
+    function runStringProcessor() {
+        const stringProcessor = (text) => {
+            return {
+                length: text.length,
+                upperCase: text.toUpperCase(),
+                lowerCase: text.toLowerCase(),
+                words: text.split(' ').length
+            };
+        };
+
+        const sampleText = "JavaScript یک زبان برنامه نویسی فوق العاده است";
+        const result = stringProcessor(sampleText);
+
+        const output = `نتایج پردازش متن:
+طول متن: ${result.length} کاراکتر
+متن با حروف بزرگ: ${result.upperCase}
+متن با حروف کوچک: ${result.lowerCase}
+تعداد کلمات: ${result.words}`;
+
+        document.getElementById("function-output").textContent = output;
+    }
+
+    // تابع برای تمرین - معکوس کردن رشته
+    function reverseString(str) {
+        return str.split('').reverse().join('');
+    }
+
+    // تابع برای تمرین - تشخیص عدد اول
+    function isPrime(num) {
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
+
+        for (let i = 5; i * i <= num; i += 6) {
+            if (num % i === 0 || num % (i + 2) === 0) return false;
+        }
+        return true;
+    }
+
+    // تابع برای تمرین - پیدا کردن بزرگترین عدد
+    function findMax(numbers) {
+        return Math.max(...numbers);
+    }
+
+    // تابع برای تمرین - شمارش کلمات
+    function countWord(text, word) {
+        const regex = new RegExp(word, 'gi');
+        const matches = text.match(regex);
+        return matches ? matches.length : 0;
+    }
+</script>
+</body>
+</html>

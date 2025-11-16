@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سایت آموزشی - طراحی سایت و پایگاه داده</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1><i class="fas fa-graduation-cap"></i> سایت آموزشی  درس پایگاه داده و تولید محتوا </h1>
+        <p>منابع و مطالب درسی برای دانش آموزان عزیز - ترم پاییز ۱۴۰۳</p>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="subjects-intro">
+            <h2>موضوعات درسی</h2>
+            <p>برای مشاهده مطالب هر درس، روی دکمه مربوطه کلیک کنید. تمامی مطالب به صورت طبقه‌بندی شده و با مثال‌های عملی ارائه شده‌اند.</p>
+        </section>
+
+        <section class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>طراحی سایت</h3>
+                <p>یادگیری اصول طراحی وب‌سایت با HTML، CSS و JavaScript. ایجاد صفحات وب تعاملی و ریسپانسیو برای دستگاه‌های مختلف.</p>
+
+                <div class="subject-topics">
+                    <h4>سرفصل‌های اصلی:</h4>
+                    <ul>
+                        <li>آشنایی با HTML و ساختار صفحات وب</li>
+                        <li>استایل‌دهی با CSS و Flexbox</li>
+                        <li>طراحی ریسپانسیو و واکنش‌گرا</li>
+                        <li>برنامه‌نویسی مقدماتی با JavaScript</li>
+                        <li>ایجاد تعامل با کاربر</li>
+                        <li>آشنایی با فریمورک‌های CSS</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openSubject('web-design')">
+                    ورود به درس طراحی سایت
+                </button>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>پایگاه داده</h3>
+                <p>آموزش مفاهیم پایگاه داده، طراحی و پیاده‌سازی جداول، نوشتن کوئری‌های SQL و مدیریت داده‌ها در سیستم‌های مختلف.</p>
+
+                <div class="subject-topics">
+                    <h4>سرفصل‌های اصلی:</h4>
+                    <ul>
+                        <li>مفاهیم پایه و معماری پایگاه داده</li>
+                        <li>طراحی مدل ER و نرمال‌سازی</li>
+                        <li>دستورات اصلی SQL (SELECT, INSERT, UPDATE, DELETE)</li>
+                        <li>انواع JOIN و توابع aggregate</li>
+                        <li>مدیریت کاربران و دسترسی‌ها</li>
+                        <li>آشنایی با MySQL و SQLite</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openSubject('database')">
+                    ورود به درس پایگاه داده
+                </button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>ساخته شده با <i class="fas fa-heart" style="color: #ff6b6b;"></i> برای دانش آموزان عزیز</p>
+        <p>تمامی حقوق محفوظ است - 1404</p>
+    </div>
+</footer>
+
+<script>
+    function openSubject(subject) {
+        // در اینجا می‌توانید آدرس صفحات موضوعات را تنظیم کنید
+        if (subject === 'web-design') {
+            window.location.href = 'webDesign/web-design.html';
+        } else if (subject === 'database') {
+            window.location.href = 'comingSoon.html';
+        }
+
+        // برای نمونه، فعلاً یک پیام نمایش می‌دهیم
+        alert(`شما در حال ورود به صفحه ${subject === 'web-design' ? 'طراحی سایت' : 'پایگاه داده'} هستید!`);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آموزش انتخاب المان‌ها در DOM - سایت آموزشی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            padding: 30px 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 20px;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .method-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .method-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: #f7df1e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .method-title {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .method-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            direction: ltr;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .note {
+            background: #f0f8ff;
+            border-right: 4px solid #f7df1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .note-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interactive-demo {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid #d1e7ff;
+        }
+
+        .demo-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.3rem;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .demo-output {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            border: 1px solid #e9ecef;
+            margin-top: 15px;
+        }
+
+        .demo-elements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .demo-element {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .demo-element.selected {
+            background: #fff3cd;
+            border-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        .demo-element.highlight {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .demo-element.warning {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(247, 223, 30, 0.3);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .comparison-table th {
+            background: #887400;
+            color: white;
+            padding: 15px;
+            text-align: right;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background: #f0f8ff;
+        }
+
+        .method-return {
+            background: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 25px;
+            }
+
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+
+            .demo-elements {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1><i class="fas fa-mouse-pointer"></i> آموزش انتخاب المان‌ها در DOM</h1>
+        <p>یادگیری روش‌های مختلف انتخاب و دسترسی به عناصر HTML با JavaScript</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="content">
+        <!-- بخش ۱: معرفی -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-play-circle"></i> انتخاب المان‌ها در DOM چیست؟</h2>
+            <div class="section-content">
+                <p><strong>انتخاب المان‌ها (Selecting Elements)</strong> اولین قدم در کار با DOM است. برای تغییر، حذف یا اضافه کردن المان‌ها در صفحه، ابتدا باید بتوانیم به آن‌ها دسترسی پیدا کنیم.</p>
+
+                <div class="note">
+                    <div class="note-title"><i class="fas fa-lightbulb"></i> چرا انتخاب المان‌ها مهم است؟</div>
+                    <ul>
+                        <li><strong>تعامل با کاربر:</strong> پاسخ به کلیک‌ها، هاور و سایر رویدادها</li>
+                        <li><strong>تغییر محتوا:</strong> به‌روزرسانی متن، HTML و استایل‌ها</li>
+                        <li><strong>اعتبارسنجی فرم:</strong> بررسی و کنترل inputها</li>
+                        <li><strong>ایجاد پویایی:</strong> ساخت برنامه‌های تعاملی و داینامیک</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۲: روش‌های انتخاب -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-search"></i> روش‌های اصلی انتخاب المان‌ها</h2>
+            <div class="section-content">
+                <p>در JavaScript روش‌های مختلفی برای انتخاب المان‌ها وجود دارد که هر کدام کاربرد خاص خود را دارند:</p>
+
+                <div class="method-grid">
+                    <!-- Method 1 -->
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div class="method-title">getElementById()</div>
+                        </div>
+                        <div class="method-description">
+                            انتخاب یک المان بر اساس ID منحصر به فرد
+                        </div>
+                        <div class="method-return">HTMLElement | null</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب المان با ID
+const header = document.getElementById('header');
+const title = document.getElementById('page-title');</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Method 2 -->
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="method-title">getElementsByClassName()</div>
+                        </div>
+                        <div class="method-description">
+                            انتخاب تمام المان‌های دارای کلاس مشخص
+                        </div>
+                        <div class="method-return">HTMLCollection</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب المان‌های با کلاس
+const boxes = document.getElementsByClassName('box');
+const items = document.getElementsByClassName('menu-item');</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Method 3 -->
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="method-title">getElementsByTagName()</div>
+                        </div>
+                        <div class="method-description">
+                            انتخاب تمام المان‌های با تگ HTML مشخص
+                        </div>
+                        <div class="method-return">HTMLCollection</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب المان‌های با تگ
+const paragraphs = document.getElementsByTagName('p');
+const buttons = document.getElementsByTagName('button');</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Method 4 -->
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <div class="method-title">querySelector()</div>
+                        </div>
+                        <div class="method-description">
+                            انتخاب اولین المان منطبق با selector CSS
+                        </div>
+                        <div class="method-return">HTMLElement | null</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب با selector
+const firstItem = document.querySelector('.item');
+const mainButton = document.querySelector('#submit-btn');</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Method 5 -->
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="method-title">querySelectorAll()</div>
+                        </div>
+                        <div class="method-description">
+                            انتخاب تمام المان‌های منطبق با selector CSS
+                        </div>
+                        <div class="method-return">NodeList</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب تمام المان‌های منطبق
+const allItems = document.querySelectorAll('.item');
+const inputs = document.querySelectorAll('input[type="text"]');</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۳: مقایسه روش‌ها -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i> مقایسه روش‌های انتخاب</h2>
+            <div class="section-content">
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>روش</th>
+                            <th>نوع خروجی</th>
+                            <th>زنده (Live)</th>
+                            <th>سرعت</th>
+                            <th>کاربرد</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>getElementById</td>
+                            <td>HTMLElement</td>
+                            <td>❌</td>
+                            <td>بسیار سریع</td>
+                            <td>انتخاب المان منحصر به فرد</td>
+                        </tr>
+                        <tr>
+                            <td>getElementsByClassName</td>
+                            <td>HTMLCollection</td>
+                            <td>✅</td>
+                            <td>سریع</td>
+                            <td>انتخاب با کلاس</td>
+                        </tr>
+                        <tr>
+                            <td>getElementsByTagName</td>
+                            <td>HTMLCollection</td>
+                            <td>✅</td>
+                            <td>سریع</td>
+                            <td>انتخاب با تگ</td>
+                        </tr>
+                        <tr>
+                            <td>querySelector</td>
+                            <td>HTMLElement</td>
+                            <td>❌</td>
+                            <td>متوسط</td>
+                            <td>انتخاب با selector پیچیده</td>
+                        </tr>
+                        <tr>
+                            <td>querySelectorAll</td>
+                            <td>NodeList</td>
+                            <td>❌</td>
+                            <td>کندتر</td>
+                            <td>انتخاب گروهی با selector</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="note">
+                    <div class="note-title"><i class="fas fa-info-circle"></i> تفاوت HTMLCollection و NodeList</div>
+                    <p><strong>HTMLCollection</strong> یک collection زنده است (با تغییر DOM به‌روز می‌شود) اما <strong>NodeList</strong> static است (فقط در زمان ایجاد snapshot می‌گیرد).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۴: دموی تعاملی -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-flask"></i> آزمایشگاه انتخاب المان‌ها</h2>
+            <div class="interactive-demo">
+                <div class="demo-title"><i class="fas fa-play"></i> محیط آزمایش انتخاب المان‌ها</div>
+
+                <!-- المان‌های آزمایشی -->
+                <div class="demo-elements">
+                    <div id="main-header" class="demo-element">
+                        <h3>عنوان اصلی</h3>
+                        <p>ID: main-header</p>
+                    </div>
+
+                    <div class="demo-element box primary">
+                        <h3>جعبه اول</h3>
+                        <p>کلاس: box primary</p>
+                    </div>
+
+                    <div class="demo-element box secondary">
+                        <h3>جعبه دوم</h3>
+                        <p>کلاس: box secondary</p>
+                    </div>
+
+                    <div class="demo-element item">
+                        <h3>آیتم ۱</h3>
+                        <p>کلاس: item</p>
+                    </div>
+
+                    <div class="demo-element item active">
+                        <h3>آیتم ۲ (فعال)</h3>
+                        <p>کلاس: item active</p>
+                    </div>
+
+                    <p class="demo-element">
+                        این یک پاراگراف معمولی است
+                    </p>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="btn" onclick="selectById()">getElementById()</button>
+                    <button class="btn" onclick="selectByClass()">getElementsByClassName()</button>
+                    <button class="btn" onclick="selectByTag()">getElementsByTagName()</button>
+                    <button class="btn" onclick="selectQuery()">querySelector()</button>
+                    <button class="btn" onclick="selectQueryAll()">querySelectorAll()</button>
+                    <button class="btn btn-secondary" onclick="resetSelection()">بازنشانی</button>
+                </div>
+
+                <div class="demo-output" id="selection-output">
+                    <h4>خروجی انتخاب المان‌ها:</h4>
+                    <p id="output-text">یک روش انتخاب را امتحان کنید...</p>
+                    <div id="selected-elements"></div>
+                </div>
+
+                <div class="code-block">
+                        <pre><code class="language-javascript">// کدهای قابل اجرا در دمو
+function selectById() {
+    const element = document.getElementById('main-header');
+    // کار با المان انتخاب شده
+}
+
+function selectByClass() {
+    const elements = document.getElementsByClassName('box');
+    // کار با المان‌های انتخاب شده
+}
+
+function selectByTag() {
+    const elements = document.getElementsByTagName('p');
+    // کار با المان‌های انتخاب شده
+}
+
+function selectQuery() {
+    const element = document.querySelector('.item.active');
+    // کار با المان انتخاب شده
+}
+
+function selectQueryAll() {
+    const elements = document.querySelectorAll('.item');
+    // کار با المان‌های انتخاب شده
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۵: مثال‌های پیشرفته -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-rocket"></i> انتخاب‌گرهای پیشرفته CSS</h2>
+            <div class="section-content">
+                <p>با <code>querySelector</code> و <code>querySelectorAll</code> می‌توانید از قدرت کامل انتخاب‌گرهای CSS استفاده کنید:</p>
+
+                <div class="method-grid">
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <div class="method-title">انتخاب‌گرهای ترکیبی</div>
+                        </div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// المان با دو کلاس
+const element = document.querySelector('.btn.primary');
+
+// فرزند مستقیم
+const child = document.querySelector('.parent > .child');
+
+// نوه‌ها
+const descendant = document.querySelector('.ancestor .descendant');</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <div class="method-title">پseudo-class ها</div>
+                        </div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// اولین المان
+const first = document.querySelector('.item:first-child');
+
+// آخرین المان
+const last = document.querySelector('.item:last-child');
+
+// المان‌های زوج
+const even = document.querySelectorAll('tr:nth-child(even)');
+
+// هاور شده
+const hovered = document.querySelector('.btn:hover');</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="method-card">
+                        <div class="method-header">
+                            <div class="method-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="method-title">انتخاب‌گرهای attribute</div>
+                        </div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// inputهای خاص
+const emailInputs = document.querySelectorAll('input[type="email"]');
+
+// المان‌های دارای attribute
+const withTitle = document.querySelectorAll('[title]');
+
+// مقدار دقیق attribute
+const exactMatch = document.querySelector('[data-id="123"]');
+
+// حاوی مقدار
+const contains = document.querySelector('[class*="error"]');</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۶: بهترین practices -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-graduation-cap"></i> بهترین روش‌ها و نکات</h2>
+            <div class="section-content">
+                <div class="note">
+                    <div class="note-title"><i class="fas fa-check-circle"></i> نکات مهم در انتخاب المان‌ها</div>
+                    <ul>
+                        <li>همیشه قبل از کار با المان، وجود آن را بررسی کنید (<code>if (element) { ... }</code>)</li>
+                        <li>برای انتخاب‌های مکرر، المان را در متغیر ذخیره کنید</li>
+                        <li>از <code>getElementById</code> برای المان‌های منحصر به فرد استفاده کنید</li>
+                        <li>برای انتخاب‌های پیچیده از <code>querySelector</code> استفاده کنید</li>
+                        <li>HTMLCollection و NodeList شبیه آرایه هستند اما آرایه نیستند</li>
+                    </ul>
+                </div>
+
+                <div class="example">
+                    <div class="example-title"><i class="fas fa-code"></i> مثال: تبدیل HTMLCollection به آرایه</div>
+                    <div class="code-block">
+                            <pre><code class="language-javascript">// HTMLCollection را به آرایه تبدیل کنید
+const boxes = document.getElementsByClassName('box');
+const boxesArray = Array.from(boxes);
+
+// حالا می‌توانید از متدهای آرایه استفاده کنید
+boxesArray.forEach(box => {
+    box.style.backgroundColor = 'blue';
+});
+
+// یا با spread operator
+const boxesArray2 = [...document.getElementsByClassName('box')];</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="navigation">
+            <button class="btn btn-secondary" onclick="goBack()">
+                <i class="fas fa-arrow-right"></i> بازگشت به صفحه JavaScript
+            </button>
+            <button class="btn" onclick="nextLesson()">
+                درس بعدی <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+
+
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>ساخته شده با <i class="fas fa-heart" style="color: #ff6b6b;"></i> برای دانش آموزان عزیز</p>
+        <p>تمامی حقوق محفوظ است - ۱۴۰۳</p>
+    </div>
+</footer>
+
+<script>
+    // فعال کردن هایلایت کد
+    hljs.highlightAll();
+    function goBack() {
+        // بازگشت به صفحه JavaScript
+        window.location.href = 'dom.html';
+    }
+
+    function nextLesson() {
+        window.location.href = '/comingSoon.html';
+        // در حالت واقعی: window.location.href = 'javascript-lesson2.html';
+    }
+    // توابع برای دموی تعاملی
+    function resetSelection() {
+        // بازنشانی تمام المان‌ها
+        const elements = document.querySelectorAll('.demo-element');
+        elements.forEach(element => {
+            element.classList.remove('selected', 'highlight', 'warning');
+        });
+
+        document.getElementById('output-text').textContent = 'یک روش انتخاب را امتحان کنید...';
+        document.getElementById('selected-elements').innerHTML = '';
+    }
+
+    function selectById() {
+        resetSelection();
+        const element = document.getElementById('main-header');
+
+        if (element) {
+            element.classList.add('selected');
+            document.getElementById('output-text').textContent =
+                '✅ المان با ID "main-header" پیدا شد';
+            document.getElementById('selected-elements').innerHTML =
+                `<pre>${element.outerHTML}</pre>`;
+        }
+    }
+
+    function selectByClass() {
+        resetSelection();
+        const elements = document.getElementsByClassName('box');
+
+        if (elements.length > 0) {
+            Array.from(elements).forEach(element => {
+                element.classList.add('highlight');
+            });
+
+            document.getElementById('output-text').textContent =
+                `✅ ${elements.length} المان با کلاس "box" پیدا شد`;
+            document.getElementById('selected-elements').innerHTML =
+                `<p>تعداد المان‌های انتخاب شده: ${elements.length}</p>`;
+        }
+    }
+
+    function selectByTag() {
+        resetSelection();
+        const elements = document.getElementsByTagName('p');
+
+        if (elements.length > 0) {
+            Array.from(elements).forEach(element => {
+                element.classList.add('warning');
+            });
+
+            document.getElementById('output-text').textContent =
+                `✅ ${elements.length} المان با تگ "p" پیدا شد`;
+            document.getElementById('selected-elements').innerHTML =
+                `<p>تعداد المان‌های انتخاب شده: ${elements.length}</p>`;
+        }
+    }
+
+    function selectQuery() {
+        resetSelection();
+        const element = document.querySelector('.item.active');
+
+        if (element) {
+            element.classList.add('selected');
+            document.getElementById('output-text').textContent =
+                '✅ المان با selector ".item.active" پیدا شد';
+            document.getElementById('selected-elements').innerHTML =
+                `<pre>${element.outerHTML}</pre>`;
+        }
+    }
+
+    function selectQueryAll() {
+        resetSelection();
+        const elements = document.querySelectorAll('.item');
+
+        if (elements.length > 0) {
+            elements.forEach(element => {
+                element.classList.add('highlight');
+            });
+
+            document.getElementById('output-text').textContent =
+                `✅ ${elements.length} المان با selector ".item" پیدا شد`;
+            document.getElementById('selected-elements').innerHTML =
+                `<p>تعداد المان‌های انتخاب شده: ${elements.length}</p>` +
+                `<p>نوع خروجی: NodeList</p>`;
+        }
+    }
+
+    // اضافه کردن یک المان پویا برای نمایش live collection
+    setTimeout(() => {
+        const newElement = document.createElement('div');
+        newElement.className = 'demo-element box';
+        newElement.innerHTML = '<h3>جعبه جدید</h3><p>این المان بعداً اضافه شد</p>';
+        document.querySelector('.demo-elements').appendChild(newElement);
+    }, 5000);
+</script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طراحی سایت - سایت آموزشی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* استایل کلی */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* هدر */
+        header {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* محتوای اصلی */
+        main {
+            padding: 40px 0;
+        }
+
+        .course-intro {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-intro h2 {
+            color: #4b6cb7;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .course-intro h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            border-radius: 2px;
+        }
+
+        .course-intro p {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .chapter-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .chapter-card.html {
+            border-color: #e44d26;
+        }
+
+        .chapter-card.css {
+            border-color: #264de4;
+        }
+
+        .chapter-card.js {
+            border-color: #f7df1e;
+        }
+
+        .chapter-card.node {
+            border-color: #68a063;
+        }
+
+        .chapter-card.sql {
+            border-color: #00758f;
+        }
+
+        .chapter-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .html .chapter-icon {
+            color: #e44d26;
+        }
+
+        .css .chapter-icon {
+            color: #264de4;
+        }
+
+        .js .chapter-icon {
+            color: #f7df1e;
+        }
+
+        .node .chapter-icon {
+            color: #68a063;
+        }
+
+        .sql .chapter-icon {
+            color: #00758f;
+        }
+
+        .chapter-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .chapter-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .chapter-topics {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .chapter-topics h4 {
+            color: #4b6cb7;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .chapter-topics ul {
+            list-style-type: none;
+            padding-right: 10px;
+        }
+
+        .chapter-topics li {
+            padding: 5px 0;
+            color: #555;
+            position: relative;
+            padding-right: 20px;
+            font-size: 0.9rem;
+        }
+
+        .chapter-topics li:before {
+            content: '•';
+            color: #4b6cb7;
+            font-weight: bold;
+            position: absolute;
+            right: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(75, 108, 183, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(75, 108, 183, 0.4);
+        }
+
+        /* فوتر */
+        footer {
+            background-color: #182848;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .chapters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chapter-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی
+        </button>
+        <div>
+            <h1><i class="fas fa-code"></i> طراحی سایت</h1>
+            <p>آموزش کامل طراحی و توسعه وب‌سایت از پایه تا پیشرفته</p>
+        </div>
+        <div></div> <!-- برای حفظ تراز -->
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="course-intro">
+            <h2>سرفصل‌های دوره طراحی سایت</h2>
+            <p>در این دوره با تکنولوژی‌های اصلی طراحی وب آشنا می‌شوید و توانایی ساخت وب‌سایت‌های مدرن و تعاملی را کسب خواهید کرد.</p>
+        </section>
+
+        <section class="chapters-grid">
+            <div class="chapter-card html">
+                <div class="chapter-icon">
+                    <i class="fab fa-html5"></i>
+                </div>
+                <h3>HTML</h3>
+                <p>زبان نشانه‌گذاری ابرمتن، اسکلت و ساختار اصلی صفحات وب را تشکیل می‌دهد.</p>
+
+                <div class="chapter-topics">
+                    <h4>مباحث اصلی:</h4>
+                    <ul>
+                        <li>آشنایی با تگ‌های اصلی HTML</li>
+                        <li>فرم‌ها و کنترل‌های ورودی</li>
+                        <li>جداول و لیست‌ها</li>
+                        <li>ساختار معنایی HTML5</li>
+                        <li>متریال و رسانه‌ها</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openChapter('html')">
+                    مشاهده مطالب HTML
+                </button>
+            </div>
+
+            <div class="chapter-card css">
+                <div class="chapter-icon">
+                    <i class="fab fa-css3-alt"></i>
+                </div>
+                <h3>CSS</h3>
+                <p>زبان شیوه‌نامه‌ای برای توصیف presentation اسناد نوشته شده با HTML.</p>
+
+                <div class="chapter-topics">
+                    <h4>مباحث اصلی:</h4>
+                    <ul>
+                        <li>انتخاب‌گرها و ویژگی‌های پایه</li>
+                        <li>Flexbox و Grid Layout</li>
+                        <li>انیمیشن و transition</li>
+                        <li>طراحی ریسپانسیو</li>
+                        <li>فریمورک‌های CSS مانند Bootstrap</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openChapter('css')">
+                    مشاهده مطالب CSS
+                </button>
+            </div>
+
+            <div class="chapter-card js">
+                <div class="chapter-icon">
+                    <i class="fab fa-js-square"></i>
+                </div>
+                <h3>JavaScript</h3>
+                <p>زبان برنامه‌نویسی برای ایجاد تعامل و پویایی در صفحات وب.</p>
+
+                <div class="chapter-topics">
+                    <h4>مباحث اصلی:</h4>
+                    <ul>
+                        <li>متغیرها، انواع داده و عملگرها</li>
+                        <li>توابع و حوزه‌بندی</li>
+                        <li>مدل شیء文档 (DOM)</li>
+                        <li>رویدادها و مدیریت آن‌ها</li>
+                        <li>AJAX و ارتباط با سرور</li>
+                        <li>ES6 و ویژگی‌های مدرن</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openChapter('javascript')">
+                    مشاهده مطالب JavaScript
+                </button>
+            </div>
+
+            <div class="chapter-card node">
+                <div class="chapter-icon">
+                    <i class="fab fa-node-js"></i>
+                </div>
+                <h3>Node.js</h3>
+                <p>محیط اجرای جاوااسکریپت سمت سرور برای ساخت برنامه‌های تحت وب مقیاس‌پذیر.</p>
+
+                <div class="chapter-topics">
+                    <h4>مباحث اصلی:</h4>
+                    <ul>
+                        <li>آشنایی با Node.js و NPM</li>
+                        <li>ماژول‌ها و مدیریت وابستگی‌ها</li>
+                        <li>ایجاد سرور HTTP</li>
+                        <li>کار با فایل‌سیستم</li>
+                        <li>Express.js و ساخت API</li>
+                        <li>اتصال به پایگاه داده</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openChapter('nodejs')">
+                    مشاهده مطالب Node.js
+                </button>
+            </div>
+
+            <div class="chapter-card sql">
+                <div class="chapter-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>SQL</h3>
+                <p>زبان استاندارد برای مدیریت و کار با پایگاه‌های داده رابطه‌ای.</p>
+
+                <div class="chapter-topics">
+                    <h4>مباحث اصلی:</h4>
+                    <ul>
+                        <li>مفاهیم پایگاه داده رابطه‌ای</li>
+                        <li>دستورات SELECT، INSERT، UPDATE، DELETE</li>
+                        <li>فیلتر کردن و مرتب‌سازی داده‌ها</li>
+                        <li>اتصالات (JOIN) و توابع aggregate</li>
+                        <li>نرمال‌سازی و طراحی پایگاه داده</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="openChapter('sql')">
+                    مشاهده مطالب SQL
+                </button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>ساخته شده با <i class="fas fa-heart" style="color: #ff6b6b;"></i> برای دانش آموزان عزیز</p>
+        <p>تمامی حقوق محفوظ است - 1404</p>
+    </div>
+</footer>
+
+<script>
+    function goBack() {
+        // بازگشت به صفحه اصلی
+        window.location.href = 'index.html';
+    }
+
+    function openChapter(chapter) {
+        // در اینجا می‌توانید آدرس صفحات هر فصل را تنظیم کنید
+        const chapterNames = {
+
+            'javascript': 'JSTUT/jsTut.html',
+
+        };
+        if(chapterNames[chapter]!==undefined) {
+            window.location.href = chapterNames[chapter];
+        }else{
+            window.location.href ='/comingSoon.html';
+        }
+        // برای نمونه فعلاً یک پیام نمایش می‌دهیم
+        // در حالت واقعی باید به صفحه مربوطه هدایت شوید
+        // window.location.href = chapter + '.html';
+    }
+</script>
+</body>
+</html>

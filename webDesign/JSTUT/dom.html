@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آموزش DOM - سایت آموزشی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <style>
+        /* استایل کلی */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* هدر */
+        header {
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            padding: 25px 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        /* محتوای اصلی */
+        main {
+            padding: 40px 0;
+        }
+
+        .lesson-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .lesson-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .lesson-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            border-radius: 2px;
+        }
+
+        .lesson-header p {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+        }
+
+        .section-content ul, .section-content ol {
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-content li {
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            direction: ltr;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .note {
+            background: #f0f8ff;
+            border-right: 4px solid #667eea;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .note-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interactive-demo {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #d1e7ff;
+        }
+
+        .demo-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .demo-output {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            border: 1px solid #e9ecef;
+            font-family: 'Courier New', monospace;
+        }
+
+        .dom-tree {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+
+        .dom-tree .tag {
+            color: #e06c75;
+        }
+
+        .dom-tree .attr {
+            color: #d19a66;
+        }
+
+        .dom-tree .text {
+            color: #98c379;
+        }
+
+        .dom-tree .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #f7df1e, #d4b810);
+            color: #333;
+            box-shadow: 0 4px 10px rgba(247, 223, 30, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 15px rgba(247, 223, 30, 0.4);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        /* استایل برای دموهای DOM */
+        .demo-element {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .demo-element.changed {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .color-box {
+            width: 100px;
+            height: 100px;
+            background: #667eea;
+            margin: 10px;
+            display: inline-block;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #e9ecef;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* فوتر */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .lesson-content {
+                padding: 25px;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navigation .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-right"></i> بازگشت به JavaScript
+        </button>
+        <div>
+            <h1><i class="fas fa-sitemap"></i> آموزش DOM در JavaScript</h1>
+            <p>مدل شی سند - ارتباط بین JavaScript و HTML</p>
+        </div>
+        <div></div> <!-- برای حفظ تراز -->
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="lesson-content">
+            <section class="lesson-header">
+                <h2>آموزش کامل Document Object Model (DOM)</h2>
+                <p>DOM رابط برنامه‌نویسی است که به JavaScript اجازه می‌دهد با صفحات HTML تعامل داشته باشد</p>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-tree"></i> DOM چیست؟</h3>
+                <div class="section-content">
+                    <p><strong>DOM (Document Object Model)</strong> یک رابط برنامه‌نویسی برای اسناد HTML و XML است. این مدل، سند را به صورت یک ساختار درختی از اشیاء نمایش می‌دهد.</p>
+
+                    <div class="dom-tree">
+                        <span class="tag">&lt;html&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;head&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;title&gt;</span><span class="text">عنوان صفحه</span><span class="tag">&lt;/title&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;/head&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;body&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h1</span> <span class="attr">id=</span><span class="text">"title"</span><span class="tag">&gt;</span><span class="text">سلام دنیا!</span><span class="tag">&lt;/h1&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;button</span> <span class="attr">onclick=</span><span class="text">"changeText()"</span><span class="tag">&gt;</span><span class="text">کلیک کن</span><span class="tag">&lt;/button&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;/body&gt;</span><br>
+                        <span class="tag">&lt;/html&gt;</span>
+                    </div>
+
+                    <div class="note">
+                        <div class="note-title"><i class="fas fa-lightbulb"></i> نکته مهم:</div>
+                        <p>DOM یک رابط مستقل از زبان است، اما ما در اینجا از JavaScript برای کار با آن استفاده می‌کنیم.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-search"></i> ۱. انتخاب المان‌ها</h3>
+                <div class="section-content">
+                    <p>روش‌های مختلف برای انتخاب المان‌ها در DOM:</p>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-id-card"></i> انتخاب با ID</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب المان با ID مشخص
+const title = document.getElementById("title");
+const header = document.querySelector("#header");</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-tags"></i> انتخاب با کلاس</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب تمام المان‌های با کلاس مشخص
+const items = document.getElementsByClassName("item");
+const boxes = document.querySelectorAll(".box");</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-code"></i> انتخاب با تگ</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// انتخاب تمام المان‌های با تگ مشخص
+const paragraphs = document.getElementsByTagName("p");
+const divs = document.querySelectorAll("div");</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="interactive-demo">
+                        <div class="demo-title"><i class="fas fa-mouse-pointer"></i> دمو: انتخاب المان‌ها</div>
+
+                        <div class="demo-controls">
+                            <button class="btn" onclick="selectById()">انتخاب با ID</button>
+                            <button class="btn" onclick="selectByClass()">انتخاب با کلاس</button>
+                            <button class="btn" onclick="selectByTag()">انتخاب با تگ</button>
+                            <button class="btn" onclick="resetSelection()">بازنشانی</button>
+                        </div>
+
+                        <div class="demo-output" id="selection-output">
+                            <div id="special-element" class="demo-element">این المان با ID "special-element" است</div>
+                            <div class="demo-element box">این یک جعبه است (کلاس: box)</div>
+                            <div class="demo-element box">این هم یک جعبه است (کلاس: box)</div>
+                            <p class="demo-element">این یک پاراگراف است (تگ: p)</p>
+                            <p class="demo-element">این هم یک پاراگراف است (تگ: p)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-edit"></i> ۲. تغییر محتوا و استایل</h3>
+                <div class="section-content">
+                    <p>روش‌های تغییر محتوا و ظاهر المان‌ها:</p>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-font"></i> تغییر متن و HTML</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// تغییر متن ساده
+element.innerText = "متن جدید";
+
+// تغییر HTML (امنیت کمتر)
+element.innerHTML = "&lt;strong&gt;متن ضخیم&lt;/strong&gt;";
+
+// تغییر متن (امن‌تر)
+element.textContent = "متن جدید";</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-palette"></i> تغییر استایل</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// تغییر مستقیم استایل
+element.style.color = "red";
+element.style.backgroundColor = "blue";
+element.style.fontSize = "20px";
+
+// اضافه کردن کلاس
+element.classList.add("active");
+
+// حذف کلاس
+element.classList.remove("old-class");</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="interactive-demo">
+                        <div class="demo-title"><i class="fas fa-magic"></i> دمو: تغییر محتوا و استایل</div>
+
+                        <div class="demo-controls">
+                            <button class="btn" onclick="changeText()">تغییر متن</button>
+                            <button class="btn" onclick="changeColor()">تغییر رنگ</button>
+                            <button class="btn" onclick="addBorder()">اضافه کردن حاشیه</button>
+                            <button class="btn" onclick="resetStyles()">بازنشانی استایل</button>
+                        </div>
+
+                        <div class="demo-output">
+                            <div id="style-demo" class="demo-element">
+                                این المان برای نمایش تغییرات استایل است
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-plus-circle"></i> ۳. ایجاد و حذف المان‌ها</h3>
+                <div class="section-content">
+                    <p>روش‌های ایجاد المان‌های جدید و حذف المان‌های موجود:</p>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-plus"></i> ایجاد المان جدید</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// ایجاد المان جدید
+const newDiv = document.createElement("div");
+newDiv.textContent = "این یک div جدید است";
+
+// اضافه کردن به DOM
+parentElement.appendChild(newDiv);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-trash"></i> حذف المان</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// حذف المان
+element.remove();
+
+// یا
+parentElement.removeChild(element);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="interactive-demo">
+                        <div class="demo-title"><i class="fas fa-list"></i> دمو: مدیریت لیست</div>
+
+                        <div class="demo-controls">
+                            <input type="text" id="new-item" placeholder="مورد جدید" class="btn" style="background: white; color: #333; border: 1px solid #ddd;">
+                            <button class="btn" onclick="addItem()">اضافه کردن</button>
+                            <button class="btn" onclick="removeLastItem()">حذف آخرین</button>
+                            <button class="btn" onclick="clearList()">پاک کردن همه</button>
+                        </div>
+
+                        <div class="demo-output">
+                            <ul id="item-list" class="item-list">
+                                <li>مورد اول</li>
+                                <li>مورد دوم</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-mouse"></i> ۴. رویدادها (Events)</h3>
+                <div class="section-content">
+                    <p>مدیریت رویدادها در DOM:</p>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-hand-pointer"></i> اضافه کردن Event Listener</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// روش مدرن
+button.addEventListener("click", function() {
+    alert("دکمه کلیک شد!");
+});
+
+// روش قدیمی
+button.onclick = function() {
+    alert("دکمه کلیک شد!");
+};</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-keyboard"></i> رویدادهای رایج</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// کلیک
+element.addEventListener("click", handleClick);
+
+// هاور (ورود موس)
+element.addEventListener("mouseenter", handleMouseEnter);
+
+// خروج موس
+element.addEventListener("mouseleave", handleMouseLeave);
+
+// فشار دکمه صفحه کلید
+document.addEventListener("keydown", handleKeyDown);
+
+// تغییر مقدار input
+input.addEventListener("input", handleInput);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="interactive-demo">
+                        <div class="demo-title"><i class="fas fa-gamepad"></i> دمو: رویدادها</div>
+
+                        <div class="demo-controls">
+                            <button class="btn" id="event-button">کلیک کن!</button>
+                            <div class="color-box" id="hover-box">هاور کن</div>
+                            <input type="text" id="key-input" placeholder="اینجا تایپ کن" class="btn" style="background: white; color: #333; border: 1px solid #ddd;">
+                        </div>
+
+                        <div class="demo-output" id="event-output">
+                            خروجی رویدادها اینجا نمایش داده می‌شود
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-project-diagram"></i> ۵. پیمایش DOM</h3>
+                <div class="section-content">
+                    <p>حرکت بین المان‌ها در درخت DOM:</p>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-arrow-up"></i> والد و فرزندان</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">// والد
+const parent = element.parentElement;
+
+// فرزندان
+const children = element.children;
+const firstChild = element.firstElementChild;
+const lastChild = element.lastElementChild;
+
+// خواهر و برادرها
+const nextSibling = element.nextElementSibling;
+const prevSibling = element.previousElementSibling;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <div class="note-title"><i class="fas fa-exclamation-triangle"></i> تفاوت مهم:</div>
+                        <p><code>children</code> فقط المان‌ها را برمی‌گرداند، اما <code>childNodes</code> تمام گره‌ها (شامل متن و کامنت) را برمی‌گرداند.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h3 class="section-title"><i class="fas fa-tasks"></i> پروژه عملی: Todo List</h3>
+                <div class="section-content">
+                    <p>بیایید یک برنامه Todo List ساده با استفاده از DOM ایجاد کنیم:</p>
+
+                    <div class="interactive-demo">
+                        <div class="demo-title"><i class="fas fa-check-circle"></i> برنامه Todo List</div>
+
+                        <div class="demo-controls">
+                            <input type="text" id="todo-input" placeholder="کار جدید..." class="btn" style="background: white; color: #333; border: 1px solid #ddd; flex-grow: 1;">
+                            <button class="btn" onclick="addTodo()">اضافه کردن</button>
+                        </div>
+
+                        <div class="demo-output">
+                            <ul id="todo-list" class="item-list">
+                                <!-- آیتم‌های todo اینجا اضافه می‌شوند -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-code"></i> کد کامل Todo List</div>
+                        <div class="code-block">
+                                <pre><code class="language-javascript">function addTodo() {
+    const input = document.getElementById("todo-input");
+    const text = input.value.trim();
+
+    if (text === "") return;
+
+    // ایجاد المان جدید
+    const li = document.createElement("li");
+    li.innerHTML = `
+        ${text}
+        <button onclick="removeTodo(this)">حذف</button>
+        <button onclick="toggleTodo(this)">انجام شد</button>
+    `;
+
+    // اضافه کردن به لیست
+    document.getElementById("todo-list").appendChild(li);
+
+    // پاک کردن input
+    input.value = "";
+}
+
+function removeTodo(button) {
+    button.parentElement.remove();
+}
+
+function toggleTodo(button) {
+    const li = button.parentElement;
+    li.classList.toggle("completed");
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i> بازگشت به صفحه JavaScript
+                </button>
+                <button class="btn" onclick="nextLesson()">
+                    درس بعدی <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>ساخته شده با <i class="fas fa-heart" style="color: #ff6b6b;"></i> برای دانش آموزان عزیز</p>
+        <p>تمامی حقوق محفوظ است - 1404</p>
+    </div>
+</footer>
+
+<script>
+    // فعال کردن هایلایت کد
+    hljs.highlightAll();
+
+    function goBack() {
+        // بازگشت به صفحه JavaScript
+        window.location.href = 'Methods.html';
+    }
+
+    function nextLesson() {
+        window.location.href = 'Selecting-Elements.html';
+        // در حالت واقعی: window.location.href = 'javascript-events.html';
+    }
+
+    // توابع برای دموهای DOM
+    // انتخاب المان‌ها
+    function selectById() {
+        const element = document.getElementById("special-element");
+        element.style.background = "#fff3cd";
+        element.style.borderColor = "#ffc107";
+    }
+
+    function selectByClass() {
+        const elements = document.getElementsByClassName("box");
+        for (let element of elements) {
+            element.style.background = "#d4edda";
+            element.style.borderColor = "#28a745";
+        }
+    }
+
+    function selectByTag() {
+        const elements = document.getElementsByTagName("p");
+        for (let element of elements) {
+            element.style.background = "#d1ecf1";
+            element.style.borderColor = "#17a2b8";
+        }
+    }
+
+    function resetSelection() {
+        const elements = document.querySelectorAll(".demo-element");
+        for (let element of elements) {
+            element.style.background = "";
+            element.style.borderColor = "";
+        }
+    }
+
+    // تغییر استایل
+    function changeText() {
+        const element = document.getElementById("style-demo");
+        element.textContent = "متن تغییر کرد! " + new Date().toLocaleTimeString();
+    }
+
+    function changeColor() {
+        const element = document.getElementById("style-demo");
+        const colors = ["#ff6b6b", "#4ecdc4", "#45b7d1", "#96ceb4", "#feca57"];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        element.style.background = randomColor;
+        element.style.color = "white";
+    }
+
+    function addBorder() {
+        const element = document.getElementById("style-demo");
+        element.style.border = "3px solid #667eea";
+        element.style.borderRadius = "15px";
+    }
+
+    function resetStyles() {
+        const element = document.getElementById("style-demo");
+        element.style = "";
+        element.textContent = "این المان برای نمایش تغییرات استایل است";
+    }
+
+    // مدیریت لیست
+    function addItem() {
+        const input = document.getElementById("new-item");
+        const text = input.value.trim();
+
+        if (text === "") return;
+
+        const li = document.createElement("li");
+        li.textContent = text;
+        document.getElementById("item-list").appendChild(li);
+
+        input.value = "";
+    }
+
+    function removeLastItem() {
+        const list = document.getElementById("item-list");
+        if (list.lastElementChild) {
+            list.removeChild(list.lastElementChild);
+        }
+    }
+
+    function clearList() {
+        const list = document.getElementById("item-list");
+        list.innerHTML = "";
+    }
+
+    // رویدادها
+    document.getElementById("event-button").addEventListener("click", function() {
+        document.getElementById("event-output").textContent = "دکمه کلیک شد! " + new Date().toLocaleTimeString();
+    });
+
+    document.getElementById("hover-box").addEventListener("mouseenter", function() {
+        this.style.background = "#4ecdc4";
+        document.getElementById("event-output").textContent = "موس وارد جعبه شد";
+    });
+
+    document.getElementById("hover-box").addEventListener("mouseleave", function() {
+        this.style.background = "#667eea";
+        document.getElementById("event-output").textContent = "موس از جعبه خارج شد";
+    });
+
+    document.getElementById("key-input").addEventListener("input", function(e) {
+        document.getElementById("event-output").textContent = `شما تایپ کردید: ${e.target.value}`;
+    });
+
+    // Todo List
+    function addTodo() {
+        const input = document.getElementById("todo-input");
+        const text = input.value.trim();
+
+        if (text === "") return;
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+                <span>${text}</span>
+                <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="removeTodo(this)">حذف</button>
+                <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="toggleTodo(this)">انجام شد</button>
+            `;
+
+        document.getElementById("todo-list").appendChild(li);
+        input.value = "";
+    }
+
+    function removeTodo(button) {
+        button.parentElement.remove();
+    }
+
+    function toggleTodo(button) {
+        const li = button.parentElement;
+        li.classList.toggle("changed");
+        const span = li.querySelector("span");
+        if (li.classList.contains("changed")) {
+            span.style.textDecoration = "line-through";
+            span.style.opacity = "0.6";
+        } else {
+            span.style.textDecoration = "none";
+            span.style.opacity = "1";
+        }
+    }
+</script>
+</body>
+</html>
