@@ -85,8 +85,12 @@
         }
 
         .game-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
             text-align: center;
             margin-bottom: 30px;
+            margin-top: 30px;
         }
 
         .game-title {
@@ -402,8 +406,7 @@
 
     <div class="game-container">
         <div class="game-header">
-            <img src="Screenshot%202025-11-16%20185439.png">
-
+           <button onclick="OnFile()" class="guess-btn"> باز کردن پروژه نمونه </button>
         </div>
     </div>
 
@@ -436,7 +439,9 @@
 </div>
 
 <script>
-
+function OnFile(){
+    window.location.href = "Screenshot 2025-11-16 185439.png"
+}
 </script>
 </body>
 </html>

@@ -231,7 +231,30 @@
             font-size: 0.9rem;
             color: #666;
         }
+        .guess-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f7df1e 0%, #d4b810 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
+        .guess-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .guess-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
         .achievements {
             background: #f8f9fa;
             border-radius: 15px;
@@ -439,7 +462,9 @@
     </header>
 
     <div class="game-container">
-      <img src="Screenshot%202025-11-17%20211118.png" alt="" class="game-screenshot">
+        <div class="game-header">
+            <button onclick="OnFile()" class="guess-btn"> باز کردن پروژه نمونه </button>
+        </div>
     </div>
 
     <div class="instructions">
@@ -461,7 +486,10 @@
 
         </div>
     </div>
-</div>
-
+<script>
+    function OnFile(){
+        window.location.href = "Screenshot 2025-11-17 211118.png"
+    }
+</script>
 </body>
 </html>
